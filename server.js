@@ -9,12 +9,6 @@ var app = express()
 
 
 const uri = "mongodb+srv://julianoalfredo:<password>@cluster0.dszyxym.mongodb.net/?retryWrites=true&w=majority";
-const Schema = mongoose.Schema
-const urlSchema = new Schema({
-    original_url: String, 
-    short_url: String
-})
-const URL = mongoose.model('URL', urlSchema)
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
@@ -34,7 +28,9 @@ app.get('/', function (req, res) {
 });
 app.post('/api/shorturl/new', async function(req, res){
     const url_original = req.body.url
-    res.send('Uhul')
+    const uid = shortid.generate()
+  
+    res.send(url_original + ' ' + uid)
 })
 
 app.use(cors())
